@@ -1,11 +1,33 @@
+<script lang="ts">
+  interface Advice {
+    id: number;
+    advice: string;
+  }
+
+  async function getAdvice(): Promise<Advice> {
+    const res = await fetch("https://api.adviceslip.com/advice", {
+      cache: "no-cache",
+    });
+    const data = await res.json();
+
+    return data.slip;
+  }
+
+  let promise = getAdvice();
+</script>
+
 <main>
   <section class="card">
     <h2 class="card__title">Advice #117</h2>
     <p class="card__content">
-      "It is easy to sit up and take notice, what's difficult is getting up and
-      taking action."
+      {#await promise}
+        ...waiting
+      {:then advice}
+        "{advice.advice}"
+      {/await}
     </p>
     <div class="card__divide">
+      <!-- FIX: make this use the full width on desktop -->
       <svg width="295" height="16" xmlns="http://www.w3.org/2000/svg"
         ><g fill="none" fill-rule="evenodd"
           ><path fill="#4F5D74" d="M0 8h122v1H0zM173 8h122v1H173z" /><g
@@ -22,7 +44,7 @@
       >
     </div>
     <div class="card__action">
-      <button aria-label="Generate new advice">
+      <button on:click={getAdvice} aria-label="Generate new advice">
         <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"
           ><path
             d="M20 0H4a4.005 4.005 0 0 0-4 4v16a4.005 4.005 0 0 0 4 4h16a4.005 4.005 0 0 0 4-4V4a4.005 4.005 0 0 0-4-4ZM7.5 18a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm0-9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm4.5 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm4.5 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm0-9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z"
