@@ -2,7 +2,7 @@
   <section class="card">
     <h2 class="card__title">Advice #117</h2>
     <p class="card__content">
-      "It is easy to sit pu and take notice, what's difficult is getting up and
+      "It is easy to sit up and take notice, what's difficult is getting up and
       taking action."
     </p>
     <div class="card__divide">
@@ -37,30 +37,29 @@
 <style>
   .card {
     position: relative;
-    background-color: hsl(217, 19%, 24%);
-    /* TODO: find a better padding solution */
-    padding: 2rem 1rem 2.5rem;
-    border-radius: 5px;
+    background-color: var(--card-color);
+    padding: 2rem 1rem;
+    border-radius: 10px;
   }
 
   .card__title {
     line-height: 1;
-    font-size: 0.8rem;
+    /* TODO: use rem values here / change the size on desktop */
+    font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 2.5px;
-    font-weight: 500;
     margin: 0;
-    color: hsl(150, 100%, 66%);
+    color: var(--accent-color);
   }
 
   .card__content {
     margin-block-start: 1rem;
-    font-weight: 600;
-    color: hsl(193, 38%, 86%);
+    /* TODO: use rem / on desktop it is 28px */
+    font-size: 24px;
   }
 
   .card__divide {
-    margin-block-start: 1.5rem;
+    margin-block: 1.5rem;
   }
 
   .card__action {

@@ -1,13 +1,17 @@
 :root {
-  /* TODO: add the correct font-family */
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  --accent-color: hsl(150, 100%, 66%);
+  --text-color: hsl(193, 38%, 86%);
+  --bg-color: hsl(218, 23%, 16%);
+  --card-color: hsl(217, 19%, 24%);
 
+  font-family: "Manrope", sans-serif;
+  line-height: 1.5;
+  font-weight: 800;
+
+  /* TODO: WTF is this? */
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  /* TODO: add the correct bg color */
-  background-color: hsl(218, 23%, 16%);
+  color: var(--text-color);
+  background-color: var(--bg-color);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -25,7 +29,7 @@ body {
 }
 
 #app {
-  max-width: 400px;
+  max-width: 500px;
   margin: 0 auto;
   padding: 1rem;
   text-align: center;
@@ -33,7 +37,7 @@ body {
 }
 
 button {
-  background-color: hsl(150, 100%, 66%);
+  background-color: var(--accent-color);
   border: none;
   border-radius: 50%;
   padding: 1.2rem;
