@@ -5,27 +5,33 @@
   }
 
   async function getAdvice(): Promise<Advice> {
-    const res = await fetch("https://api.adviceslip.com/advice", {
-      cache: "no-cache",
-    });
+    const res = await fetch("https://api.adviceslip.com/advice");
     const data = await res.json();
 
-    return data.slip;
+    // TODO: handle the errors like a big guy
+    return data.slip as Advice;
   }
 
+  // TODO: should I do this onMount lifecycle hook?
+  // TODO: choose a better name
   let promise = getAdvice();
+
+  // PERF: disable the button for 2 seconds (the API will send the same advice if you don't wait for 2 seconds)
+  function handleClick() {
+    promise = getAdvice();
+  }
 </script>
 
 <main>
+  <!-- PERF: smooth animation of the card on a new advice -->
   <section class="card">
-    <h2 class="card__title">Advice #117</h2>
-    <p class="card__content">
-      {#await promise}
-        ...waiting
-      {:then advice}
-        "{advice.advice}"
-      {/await}
-    </p>
+    {#await promise}
+      <!-- PERF: use a spinner here maybe -->
+      ...waiting
+    {:then data}
+      <h2 class="card__title">Advice #{data.id}</h2>
+      <q class="card__content">{data.advice}</q>
+    {/await}
     <div class="card__divide">
       <!-- FIX: make this use the full width on desktop -->
       <svg width="295" height="16" xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +50,7 @@
       >
     </div>
     <div class="card__action">
-      <button on:click={getAdvice} aria-label="Generate new advice">
+      <button on:click={handleClick} aria-label="Generate new advice">
         <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"
           ><path
             d="M20 0H4a4.005 4.005 0 0 0-4 4v16a4.005 4.005 0 0 0 4 4h16a4.005 4.005 0 0 0 4-4V4a4.005 4.005 0 0 0-4-4ZM7.5 18a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm0-9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm4.5 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm4.5 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm0-9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z"
@@ -71,11 +77,11 @@
     text-transform: uppercase;
     letter-spacing: 2.5px;
     margin: 0;
+    margin-block-end: 1rem;
     color: var(--accent-color);
   }
 
   .card__content {
-    margin-block-start: 1rem;
     /* TODO: use rem / on desktop it is 28px */
     font-size: 24px;
   }
@@ -91,4 +97,3 @@
     transform: translateY(50%);
   }
 </style>
-
