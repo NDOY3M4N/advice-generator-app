@@ -30,24 +30,15 @@
       ...waiting
     {:then data}
       <h2 class="card__title">Advice #{data.id}</h2>
-      <q class="card__content">{data.advice}</q>
+      <q class="card__content">{@html data.advice}</q>
     {/await}
     <div class="card__divide">
-      <!-- FIX: make this use the full width on desktop -->
-      <svg width="295" height="16" xmlns="http://www.w3.org/2000/svg"
-        ><g fill="none" fill-rule="evenodd"
-          ><path fill="#4F5D74" d="M0 8h122v1H0zM173 8h122v1H173z" /><g
-            transform="translate(138)"
-            fill="#CEE3E9"
-            ><rect width="6" height="16" rx="3" /><rect
-              x="14"
-              width="6"
-              height="16"
-              rx="3"
-            /></g
-          ></g
-        ></svg
-      >
+      <svg width="295" height="16" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(138)" fill="#CEE3E9">
+          <rect width="6" height="16" rx="3" />
+          <rect x="14" width="6" height="16" rx="3" />
+        </g>
+      </svg>
     </div>
     <div class="card__action">
       <button on:click={handleClick} aria-label="Generate new advice">
@@ -88,6 +79,24 @@
 
   .card__divide {
     margin-block: 1.5rem;
+    position: relative;
+  }
+
+  .card__divide::before,
+  .card__divide::after {
+    content: "";
+    position: absolute;
+    top: 10px;
+    width: calc(50% - 1.5rem);
+    height: 1px;
+    background-color: var(--divider-color);
+  }
+
+  .card__divide::before {
+    left: 0;
+  }
+  .card__divide::after {
+    right: 0;
   }
 
   .card__action {
