@@ -5,10 +5,12 @@
   }
 
   async function getAdvice(): Promise<Advice> {
-    const res = await fetch("https://api.adviceslip.com/advice");
-    const data = await res.json();
+    const res = await fetch("https://api.adviceslip.com/advise");
 
-    // TODO: handle the errors like a big guy
+    if (!res.ok)
+      throw new Error("Something went wrong. Please try again later");
+
+    const data = await res.json();
     return data.slip as Advice;
   }
 
@@ -31,6 +33,8 @@
     {:then data}
       <h2 class="card__title">Advice #{data.id}</h2>
       <q class="card__content">{@html data.advice}</q>
+    {:catch error}
+      <p>{error.message}</p>
     {/await}
     <div class="card__divide">
       <svg width="295" height="16" xmlns="http://www.w3.org/2000/svg">
