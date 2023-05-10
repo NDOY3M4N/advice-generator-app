@@ -72,7 +72,7 @@
     background-color: var(--card-color);
     padding: 2rem 1rem;
     border-radius: 10px;
-    height: fit-content;
+    /* height: fit-content; */
     transition: all 0.6s ease;
   }
 
@@ -132,6 +132,12 @@
 
   .card__action button.loading {
     animation: rotate 6s infinite linear;
+  }
+
+  @media (prefers-reduced-motion) {
+    .card__action button.loading {
+      animation: none;
+    }
   }
 
   @keyframes rotate {
