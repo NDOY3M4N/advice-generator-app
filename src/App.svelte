@@ -1,57 +1,66 @@
 <script lang="ts">
-  interface Advice {
+  import ButtonIcon from "./lib/ButtonIcon.svelte";
+  import DividerIcon from "./lib/DividerIcon.svelte";
+
+  let loading: boolean;
+
+  interface IAdvice {
     id: number;
     advice: string;
   }
 
-  async function getAdvice(): Promise<Advice> {
-    const res = await fetch("https://api.adviceslip.com/advise");
+  function sleep(ms: number = 2000) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  async function loadAdvice(): Promise<IAdvice> {
+    loading = true;
+    const res = await fetch("https://api.adviceslip.com/advice");
+
+    // NOTE: sleep of 3s here for animation purposes 😊
+    await sleep();
 
     if (!res.ok)
       throw new Error("Something went wrong. Please try again later");
 
     const data = await res.json();
-    return data.slip as Advice;
+    loading = false;
+
+    return data.slip as IAdvice;
   }
 
-  // TODO: should I do this onMount lifecycle hook?
-  // TODO: choose a better name
-  let promise = getAdvice();
+  let promise = loadAdvice();
 
-  // PERF: disable the button for 2 seconds (the API will send the same advice if you don't wait for 2 seconds)
   function handleClick() {
-    promise = getAdvice();
+    promise = loadAdvice();
   }
 </script>
 
 <main>
-  <!-- PERF: smooth animation of the card on a new advice -->
+  <!-- PERF: animate the height of the card on new advice -->
   <section class="card">
     {#await promise}
       <!-- PERF: use a spinner here maybe -->
-      ...waiting
+      Loading...
     {:then data}
       <h2 class="card__title">Advice #{data.id}</h2>
-      <q class="card__content">{@html data.advice}</q>
+      <!-- FIX: There are some weird symbols not being UTF8-ed -->
+      <q class="card__content">{data.advice}</q>
     {:catch error}
       <p>{error.message}</p>
     {/await}
     <div class="card__divide">
-      <svg width="295" height="16" xmlns="http://www.w3.org/2000/svg">
-        <g transform="translate(138)" fill="#CEE3E9">
-          <rect width="6" height="16" rx="3" />
-          <rect x="14" width="6" height="16" rx="3" />
-        </g>
-      </svg>
+      <DividerIcon />
     </div>
     <div class="card__action">
-      <button on:click={handleClick} aria-label="Generate new advice">
-        <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"
-          ><path
-            d="M20 0H4a4.005 4.005 0 0 0-4 4v16a4.005 4.005 0 0 0 4 4h16a4.005 4.005 0 0 0 4-4V4a4.005 4.005 0 0 0-4-4ZM7.5 18a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm0-9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm4.5 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm4.5 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm0-9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z"
-            fill="#202733"
-          /></svg
-        >
+      <button
+        disabled={loading}
+        on:click={handleClick}
+        aria-label="Generate new advice"
+        type="button"
+        class:loading
+      >
+        <ButtonIcon />
       </button>
     </div>
   </section>
@@ -63,6 +72,8 @@
     background-color: var(--card-color);
     padding: 2rem 1rem;
     border-radius: 10px;
+    height: fit-content;
+    transition: all 0.6s ease;
   }
 
   .card__title {
@@ -108,5 +119,27 @@
     inset-inline: 0;
     bottom: 0;
     transform: translateY(50%);
+  }
+
+  .card__action button {
+    background-color: var(--accent-color);
+    border-radius: 50%;
+    padding: 1.2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .card__action button.loading {
+    animation: rotate 6s infinite linear;
+  }
+
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
   }
 </style>

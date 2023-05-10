@@ -38,16 +38,10 @@ body {
 }
 
 button {
-  background-color: var(--accent-color);
   border: none;
-  border-radius: 50%;
-  padding: 1.2rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   cursor: pointer;
 }
 
 button:disabled {
-  background: red;
+  cursor: not-allowed;
 }
