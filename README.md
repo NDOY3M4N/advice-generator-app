@@ -1,3 +1,5 @@
+![screenshot of the app](./screenshot.jpeg)
+
 # Frontend Mentor - Advice generator app solution
 
 This is a solution to the [Advice generator app challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/advice-generator-app-QdUG-13db). Frontend Mentor challenges help you improve your coding skills by building realistic projects.
@@ -6,7 +8,6 @@ This is a solution to the [Advice generator app challenge on Frontend Mentor](ht
 
 - [Overview](#overview)
   - [The challenge](#the-challenge)
-  - [Screenshot](#screenshot)
   - [Links](#links)
 - [My process](#my-process)
   - [Built with](#built-with)
@@ -24,14 +25,10 @@ Users should be able to:
 - See hover states for all interactive elements on the page
 - Generate a new piece of advice by clicking the dice icon
 
-### Screenshot
-
-![my-screenshot](./screenshot.jpeg)
-
 ### Links
 
-- Solution URL: [Add solution URL here](https://your-solution-url.com)
-- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+- Solution URL: [https://github.com/NDOY3M4N/advice-generator-app](https://github.com/NDOY3M4N/advice-generator-app)
+- Live Site URL: [https://ndoy3m4n.github.io/advice-generator-app](https://ndoy3m4n.github.io/advice-generator-app)
 
 ## My process
 
@@ -46,7 +43,7 @@ Users should be able to:
 
 ### What I learned
 
-This whole challenge was a way for me to earn more about Svelte.
+This whole challenge helped me learn a little bit about Svelte.
 
 ### Continued development
 
