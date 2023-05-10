@@ -36,34 +36,31 @@
   }
 </script>
 
-<main>
+<main class="card">
   <!-- PERF: animate the height of the card on new advice -->
-  <section class="card">
-    {#await promise}
-      <!-- PERF: use a spinner here maybe -->
-      Loading...
-    {:then data}
-      <h2 class="card__title">Advice #{data.id}</h2>
-      <!-- FIX: There are some weird symbols not being UTF8-ed -->
-      <q class="card__content">{data.advice}</q>
-    {:catch error}
-      <p>{error.message}</p>
-    {/await}
-    <div class="card__divide">
-      <DividerIcon />
-    </div>
-    <div class="card__action">
-      <button
-        disabled={loading}
-        on:click={handleClick}
-        aria-label="Generate new advice"
-        type="button"
-        class:loading
-      >
-        <ButtonIcon />
-      </button>
-    </div>
-  </section>
+  {#await promise}
+    Loading...
+  {:then data}
+    <h2 class="card__title">Advice #{data.id}</h2>
+    <!-- FIX: There are some weird symbols not being UTF8-ed -->
+    <q class="card__content">{data.advice}</q>
+  {:catch error}
+    <p>{error.message}</p>
+  {/await}
+  <div class="card__divide">
+    <DividerIcon />
+  </div>
+  <div class="card__action">
+    <button
+      disabled={loading}
+      on:click={handleClick}
+      aria-label="Generate new advice"
+      type="button"
+      class:loading
+    >
+      <ButtonIcon />
+    </button>
+  </div>
 </main>
 
 <style>
@@ -72,14 +69,11 @@
     background-color: var(--card-color);
     padding: 2rem 1rem;
     border-radius: 10px;
-    /* height: fit-content; */
-    transition: all 0.6s ease;
   }
 
   .card__title {
     line-height: 1;
-    /* TODO: use rem values here / change the size on desktop */
-    font-size: 10px;
+    font-size: 0.6rem;
     text-transform: uppercase;
     letter-spacing: 2.5px;
     margin: 0;
@@ -88,8 +82,7 @@
   }
 
   .card__content {
-    /* TODO: use rem / on desktop it is 28px */
-    font-size: 24px;
+    font-size: 1.5rem;
   }
 
   .card__divide {
@@ -130,12 +123,12 @@
     justify-content: center;
   }
 
-  .card__action button.loading {
+  .loading {
     animation: rotate 6s infinite linear;
   }
 
   @media (prefers-reduced-motion) {
-    .card__action button.loading {
+    .loading {
       animation: none;
     }
   }
@@ -146,6 +139,20 @@
     }
     to {
       transform: rotate(360deg);
+    }
+  }
+
+  @media (min-width: 800px) {
+    .card {
+      padding: 3rem 4rem;
+    }
+
+    .card__title {
+      font-size: 0.75rem;
+    }
+
+    .card__content {
+      font-size: 1.75rem;
     }
   }
 </style>
