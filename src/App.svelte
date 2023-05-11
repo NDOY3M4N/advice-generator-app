@@ -13,9 +13,9 @@
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
-  async function loadAdvice(): Promise<IAdvice> {
+  async function loadAdvice(url: string = "https://api.adviceslip.com/advice"): Promise<IAdvice> {
     loading = true;
-    const res = await fetch("https://api.adviceslip.com/advice");
+    const res = await fetch(url, { cache: "no-cache"});
 
     // NOTE: sleep of 3s here for animation purposes 😊
     await sleep();
